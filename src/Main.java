@@ -45,7 +45,7 @@ public class Main {
                         break;
                     }
                 case 2:
-                    SetUp.savedGame();
+                    SetUp.loadGame();
                     cont = false;
                     game();
                     break;

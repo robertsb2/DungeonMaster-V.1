@@ -1,5 +1,6 @@
 package Players;
 
+import Weapons.Weapon;
 import lib.ConsoleIO;
 
 import java.util.ArrayList;
@@ -68,7 +69,6 @@ public class Players {
          } else {
             curHealth = maxHealth;
         }
-        Players.printPlayer();
     }
 
     // Gold Methods:
@@ -94,26 +94,35 @@ public class Players {
             pack.add("potion");
         }
     }
-    public static void openPack() {
+    public static boolean openPack() {
         String choice = null;
         try {
-            for (Object item : pack) {
-                System.out.println(item.toString());
+            if (pack.size() != 0) {
 
+                for (Object item : pack) {
+                    System.out.println(item.toString());
+
+                }
+            } else {
+                System.out.println("Your pack is empty.");
+                return false;
             }
             choice = ConsoleIO.promptForInput("What do you want to use? ", false);
         } catch (Exception e) {
-            System.out.println("Your Pack is empty");
+            System.out.println("pack print error");
         }
            try {
                if ( pack.contains(choice)){
                    useItem(choice);
+                   return true;
                } else {
                    System.out.println("you don't have any of those.");
+                   return false;
                }
            }catch (Exception e){
-               System.out.println("Your Pack is empty.");
+               System.out.println("pack item choice error");
            }
+           return false;
         }
     private static void useItem(String item){
         try {
@@ -139,6 +148,10 @@ public class Players {
         System.out.println("Max Health: " + maxHealth);
         System.out.println("Current Health: " + curHealth);
         System.out.println("Gold: " + gold);
+        System.out.println("");
+        System.out.println("--------");
+        System.out.println("Weapon: " + Weapon.getWeaponName());
+        System.out.println("");
     }
 
     public static void statUp(){

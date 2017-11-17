@@ -1,6 +1,7 @@
 package Gameplay;
 
 import Players.Players;
+import Weapons.Weapon;
 import lib.ConsoleIO;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class SetUp {
         Players.setGold(10);
     }
 
-    public static void savedGame() {
+    public static void loadGame() {
         try {
             BufferedReader savedGameFile = new BufferedReader(new FileReader("C:\\Users\\Bryan\\Documents\\My Games\\Dungeon Master\\Save FIles\\Player.txt"));
             String name = savedGameFile.readLine();
@@ -35,10 +36,11 @@ public class SetUp {
             Players.setMaxHealth(Integer.parseInt(savedGameFile.readLine()));
             Players.setCurHealth(Integer.parseInt(savedGameFile.readLine()));
             Players.setGold(Integer.parseInt(savedGameFile.readLine()));
+            Weapon.setWeapon(Integer.parseInt(savedGameFile.readLine()));
             System.out.println("");
 
         } catch (Exception e){
-            System.out.println("No save files found. Starting new game.");
+            System.out.println("No save files found. Starting new game. " + e);
             newGame();
         }
     }
@@ -60,6 +62,8 @@ public class SetUp {
             newGameFile.write(Integer.toString(Players.getCurHealth()));
             newGameFile.newLine();
             newGameFile.write(Integer.toString(Players.getGold()));
+            newGameFile.newLine();
+            newGameFile.write(Integer.toString(Weapon.getWeaponId()));
 
             System.out.println("Game Saved");
         } catch (Exception e) {
@@ -79,14 +83,16 @@ public class SetUp {
     }
 
     public static void mainMenu(){
-        String[] mainMenu = new String[]{"1: Save & Continue","2: Save & Quit"};
+        String[] mainMenu = new String[]{"1: Continue", "2: Save & Continue","3: Save & Quit"};
         Players.printPlayer();
         switch (ConsoleIO.promptForMenuSelection(mainMenu,false)){
             case 1:
+                break;
+            case 2:
                 save();
                 delay(500);
                 break;
-            case 2:
+            case 3:
                 save();
                 delay(500);
                 System.out.println("Goodbye");

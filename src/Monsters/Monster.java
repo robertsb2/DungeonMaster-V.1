@@ -61,12 +61,11 @@ public class Monster {
 
     private static void fight() {
         escape = false;
-        Scanner scanner = new Scanner(System.in);
         System.out.println("A " + Monster.name + " appeared!");
         while (!escape){
             System.out.println("");
             printBattleStats();
-            scanner.nextLine();
+            System.out.println("");
             playerTurn();
             if(Monster.health > 0 && !escape) {
                 monsterAttack();
@@ -101,7 +100,9 @@ public class Monster {
                 SetUp.delay(500);
                 break;
             case 2:
-                Players.openPack();
+                if(!Players.openPack()){
+                    playerTurn();
+                }
                 break;
             case 3:
                 if(SetUp.getRandom(10)> Monster.escapeRoll) {

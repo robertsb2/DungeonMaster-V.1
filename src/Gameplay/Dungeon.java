@@ -59,17 +59,17 @@ public class Dungeon {
     private static void explore() {
         int i = SetUp.getRandom(100)+1;
         if (i <= 25){
-            i = 1;
+            i = 1; //Hallway 25% chance
         } else if (i <= 50){
-            i = 2;
-        } else if (i <= 60){
-            i = 3;
+            i = 2; //Cavern 25% chance
+        } else if (i <= 65){
+            i = 3; //Library 15% chance
         } else if (i <= 80){
-            i = 4;
-        } else if (i <= 85){
-            i = 5;
-        } else if (i <= 100){
-            i = 6;
+            i = 4; //Stairs 15% chance
+        } else if (i <= 90){
+            i = 5; //Treasury 10% chance
+        } else if ( i <= 100){
+            i = 6; //Shrine 10% chance
         }
         System.out.println("");
         Rooms room = roomType(i);
