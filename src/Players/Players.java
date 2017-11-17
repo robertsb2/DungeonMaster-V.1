@@ -62,8 +62,12 @@ public class Players {
         return curHealth;
     }
     public static void heal(int amount){
-        System.out.println("You regained " + amount + " health");
-        curHealth += amount;
+        if  (maxHealth-curHealth >= amount) {
+            System.out.println("You regained " + amount + " health");
+            curHealth += amount;
+         } else {
+            curHealth = maxHealth;
+        }
         Players.printPlayer();
     }
 
@@ -97,33 +101,34 @@ public class Players {
                 System.out.println(item.toString());
 
             }
-            choice = ConsoleIO.promptForInput("What do you want to use?", false);
-        } catch (NullPointerException e) {
+            choice = ConsoleIO.promptForInput("What do you want to use? ", false);
+        } catch (Exception e) {
             System.out.println("Your Pack is empty");
         }
-        for (Object item : pack){
-            if(choice.equalsIgnoreCase(item.toString())){
-                System.out.println("Hello");
-            }
+           try {
+               if ( pack.contains(choice)){
+                   useItem(choice);
+               } else {
+                   System.out.println("you don't have any of those.");
+               }
+           }catch (Exception e){
+               System.out.println("Your Pack is empty.");
+           }
         }
-    }
-    public static String useItem(String item){
+    private static void useItem(String item){
         try {
-            for (int i = 0; i < pack.size(); i++) {
-                if (item.equalsIgnoreCase(pack.get(i).toString())) {
-                    pack.remove(item);
-                    return item;
-                } else {
-                    System.out.println("You don't have any of those");
-                    return null;
-                }
+            switch (item){
+                case "potion":
+                    Players.pack.remove(item);
+                    heal(5);
+                    break;
+                default:
+                    System.out.println("Use Item Error");
 
             }
         } catch (NullPointerException e){
             System.out.println("Your pack is empty");
-            return null;
         }
-        return null;
     }
 
     public static void printPlayer(){
@@ -154,18 +159,5 @@ public class Players {
                 System.out.println("There is nothing of interest here.");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

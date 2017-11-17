@@ -4,8 +4,6 @@ import Players.Players;
 import Weapons.Weapon;
 import lib.ConsoleIO;
 
-import java.util.Random;
-
 public class Dungeon {
     public enum Rooms {
         HALLWAY("Dark and dusty, full of cobwebs."),
@@ -44,7 +42,7 @@ public class Dungeon {
                     explore();
                     break;
                 case 2:
-                    downStairs();
+                    upStairs();
                     break;
                 case 3:
                     exitDungeon();
@@ -59,8 +57,7 @@ public class Dungeon {
     }
 
     private static void explore() {
-        Random random = new Random();
-        int i = random.nextInt(100)+1;
+        int i = SetUp.getRandom(100)+1;
         if (i <= 25){
             i = 1;
         } else if (i <= 50){
@@ -86,7 +83,6 @@ public class Dungeon {
     }
 
     private static void encounter(Rooms room) {
-        Random random = new Random();
         switch (room){
             case CAVERN:
                 Monster.foundMonster(floor);
@@ -102,10 +98,10 @@ public class Dungeon {
                 }
                 break;
             case HALLWAY:
-                if(random.nextInt(2)+1 == 2){
+                if(SetUp.getRandom(2)+1 == 2){
                     System.out.println("You found some gold!");
                     SetUp.delay(1000);
-                    Players.addGold(random.nextInt(4)+1);
+                    Players.addGold(SetUp.getRandom(4)+1);
                 } else {
                     Monster.foundMonster(floor);
                 }
@@ -120,12 +116,17 @@ public class Dungeon {
         }
     }
 
-    private static void downStairs() {
+    private static void upStairs() {
         if(foundStairs){
             foundStairs = false;
             floor++;
             System.out.println("");
+            System.out.println("---------");
+            System.out.println("Dungeon");
             System.out.println("Floor " + floor);
+            System.out.println("---------");
+            System.out.println("");
+
         } else {
             System.out.println("");
             System.out.println("You haven't found the stairs for this floor yet...");
@@ -160,14 +161,13 @@ public class Dungeon {
     }
 
     public static void getReward(){
-        Random random = new Random();
-        int i = random.nextInt(4)+1;
+        int i = SetUp.getRandom(4)+1;
         if (i == 1 && (floor % 2) == 0){
             System.out.println("You got a weapon");
             System.out.println(Weapon.getWeaponName());
-            Weapon.setWeapon(random.nextInt(floor/2)+1);
+            Weapon.setWeapon(SetUp.getRandom(floor/2)+1);
         } else {
-            Players.addGold(random.nextInt(10)+1);
+            Players.addGold(SetUp.getRandom(5)+1);
         }
     }
 }

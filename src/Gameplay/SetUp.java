@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Random;
 
 public class SetUp {
 
@@ -34,9 +35,6 @@ public class SetUp {
             Players.setMaxHealth(Integer.parseInt(savedGameFile.readLine()));
             Players.setCurHealth(Integer.parseInt(savedGameFile.readLine()));
             Players.setGold(Integer.parseInt(savedGameFile.readLine()));
-            System.out.println("");
-            Players.printPlayer();
-            delay(500);
             System.out.println("");
 
         } catch (Exception e){
@@ -82,6 +80,7 @@ public class SetUp {
 
     public static void mainMenu(){
         String[] mainMenu = new String[]{"1: Save & Continue","2: Save & Quit"};
+        Players.printPlayer();
         switch (ConsoleIO.promptForMenuSelection(mainMenu,false)){
             case 1:
                 save();
@@ -114,6 +113,12 @@ public class SetUp {
         } catch (Exception e){
             System.out.println("delay error");
         }
+    }
+
+    public static int getRandom(int bound){
+        Random random = new Random();
+        int result = random.nextInt(bound);
+        return result;
     }
 }
 

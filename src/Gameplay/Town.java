@@ -7,14 +7,14 @@ import lib.ConsoleIO;
 public class Town {
     private static String[] townOptions = new String[]{"1: Visit Healer","2: Visit Shops","3: Leave Town","4: Main Menu"};
     public static void start(){
-        System.out.println("");
-        System.out.println("---------");
-        System.out.println("Durnwell");
-        System.out.println("---------");
-        System.out.println("");
-        SetUp.delay(500);
         boolean inTown = true;
         do{
+            System.out.println("");
+            System.out.println("---------");
+            System.out.println("Durnwell");
+            System.out.println("---------");
+            System.out.println("");
+            SetUp.delay(500);
             int choice = ConsoleIO.promptForMenuSelection(townOptions, false);
             switch (choice){
                 case 1:
@@ -38,7 +38,7 @@ public class Town {
         String shopFile2 = "C:\\Users\\Bryan\\Documents\\My Games\\Dungeon Master\\Dialogue\\Shop2.txt";
         boolean shopping = true;
         int amount;
-        int goldCost = 10;
+        int potionCost = 10;
         int journalCost = 25;
         int bookCost = 20;
         int weaponCostMultiplier = 5;
@@ -56,13 +56,13 @@ public class Town {
             switch (ConsoleIO.promptForMenuSelection(new String[]{"1: Buy Potions","2: Buy Journal","3: Buy Guidebook","4: Buy Weapons","5: Exit Shop"},false)){
                 case 1:
                     amount = ConsoleIO.promptForInt("How many would you like to buy?",1,9999);
-                    if ((amount * goldCost) > Players.getGold()){
+                    if ((amount * potionCost) > Players.getGold()){
                         System.out.println("");
                         System.out.println("You don't have enough money");
                         System.out.println("");
                         SetUp.delay(1000);
                     } else {
-                        Players.subtractGold(amount * goldCost);
+                        Players.subtractGold(amount * potionCost);
                         Players.fillPack(amount);
                     }
                     break;
@@ -74,7 +74,7 @@ public class Town {
                         System.out.println("");
                         SetUp.delay(1000);
                     } else {
-                        Players.subtractGold(amount);
+                        Players.subtractGold(amount * journalCost);
                         Players.setStrength(amount);
                     }
                     break;
@@ -86,7 +86,7 @@ public class Town {
                         System.out.println("");
                         SetUp.delay(1000);
                     } else {
-                        Players.subtractGold(amount);
+                        Players.subtractGold(amount*bookCost);
                         Players.setDefense(amount);
                     }
                     break;
@@ -103,7 +103,7 @@ public class Town {
                         SetUp.delay(1000);
                     } else {
                         Players.subtractGold(amount);
-                        Weapon.setWeapon(amount);
+                        Weapon.setWeapon(choice);
                     }
                     break;
                 case 5:
