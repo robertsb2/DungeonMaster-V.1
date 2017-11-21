@@ -6,6 +6,8 @@ import lib.ConsoleIO;
 
 public class Town {
     private static String[] townOptions = new String[]{"1: Visit Healer","2: Visit Shops","3: Leave Town","4: Main Menu"};
+
+    // Town code entry point
     public static void start(){
         boolean inTown = true;
         do{
@@ -33,8 +35,7 @@ public class Town {
         } while (inTown);
     }
 
-
-
+    // It's a shop.
     private static void shop() {
         String shopFile = "C:\\Users\\Bryan\\Documents\\My Games\\Dungeon Master\\Dialogue\\Shop1.txt";
         String shopFile2 = "C:\\Users\\Bryan\\Documents\\My Games\\Dungeon Master\\Dialogue\\Shop2.txt";
@@ -73,8 +74,8 @@ public class Town {
                     } else {
                         Players.subtractGold(amount * journalCost);
                         Players.setStrength(amount);
-                        System.out.println("Your strength has increaased by " + amount);
-                        SetUp.delay(500);
+                        System.out.println("Your strength has increased by " + amount);
+                        SetUp.delay(1000);
                     }
                     break;
                 case 3:
@@ -84,8 +85,8 @@ public class Town {
                     } else {
                         Players.subtractGold(amount*bookCost);
                         Players.setDefense(amount);
-                        System.out.println("Your defense has increaased by " + amount);
-                        SetUp.delay(500);
+                        System.out.println("Your defense has increased by " + amount);
+                        SetUp.delay(1000);
                     }
                     break;
                 case 4:
@@ -111,36 +112,25 @@ public class Town {
         }
     }
 
+    // Heals player based on gold in inventory
     private static void healer() {
         int diff =  Players.getMaxHealth() - Players.getCurHealth();
         System.out.println("Welcome!");
         SetUp.delay(1000);
         if(diff != 0) {
-            if (ConsoleIO.promptForBool("I can heal all your wounds for " + diff + " gold. (1:Heal 2: Cancel)", "1", "2")) {
-                if (Players.getGold() >= diff) {
-                    Players.heal(diff);
-                    Players.subtractGold(diff);
-                } else {
-                    System.out.println("You don't have enough gold");
-                    if (ConsoleIO.promptForBool("Would you like me to heal some of your wounds?", "Yes", "no")) {
-                        Players.heal(Players.getGold());
-                        Players.subtractGold(Players.getGold());
-                    }
-                }
-
-            } else {
-                System.out.println("Oh, you don't need any healing...   Come back later.");
-                SetUp.delay(500);
-            }
+            System.out.println("Let me heal your wounds...");
+            SetUp.delay(1500);
+            Players.heal(diff);
         } else {
             System.out.println("Oh, you don't need any healing...   Come back later.");
             SetUp.delay(500);
         }
     }
 
+    // Prints insufficient fund errors in shop and at healer.
     private static void insufficientFunds(){
         System.out.println("");
-        System.out.println("You don't have enough money");
+        System.out.println("You don't have enough money.");
         System.out.println("");
         SetUp.delay(1000);
     }

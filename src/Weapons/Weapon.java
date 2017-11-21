@@ -25,6 +25,7 @@ public class Weapon {
     private static String name = "none";
     private static int weaponId = 0;
 
+    // Loads saved weapons or updates when new weapon is purchased
     public static void setWeapon(int idNumber){
         Weapons weapon;
         weapon = Weapons.values()[idNumber];
@@ -33,18 +34,22 @@ public class Weapon {
         weaponId = idNumber;
     }
 
+    // Returns the attack power characteristic of the set weapon.
     public static int getAtkPower(){
         return atkPower;
     }
 
+    // Returns weapon name
     public static String getWeaponName(){
         return name;
     }
 
+    // Returns weapon ID number. Used mostly for saving the game, but also for purchasing.
     public static int getWeaponId(){
         return weaponId;
     }
 
+    // Returns cost of specific weapon.
     public static int getCost(int idNumber){
         Weapons weapon = Weapons.values()[idNumber];
 

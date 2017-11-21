@@ -3,16 +3,15 @@ package Gameplay;
 import Players.Players;
 import Weapons.Weapon;
 import lib.ConsoleIO;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class SetUp {
 
+    // Resets saved variables and prints intro.
     public static void newGame() {
         System.out.println("");
         Players.setName("",false);
@@ -23,6 +22,7 @@ public class SetUp {
         Players.setGold(10);
     }
 
+    // Reads saved data file and loads saved variables.
     public static void loadGame() {
         try {
             BufferedReader savedGameFile = new BufferedReader(new FileReader("C:\\Users\\Bryan\\Documents\\My Games\\Dungeon Master\\Save Files\\Player.txt"));
@@ -50,6 +50,7 @@ public class SetUp {
         }
     }
 
+    // Overwrites saved game file with current data values.
     private static void save() {
         BufferedWriter newGameFile = null;
         try {
@@ -91,6 +92,7 @@ public class SetUp {
 
     }
 
+    // Shows current stats, handles save requests, program exit point.
     public static void mainMenu(){
         String[] mainMenu = new String[]{"1: Continue", "2: Save & Continue","3: Save & Quit"};
         Players.printPlayer();
@@ -104,12 +106,12 @@ public class SetUp {
             case 3:
                 save();
                 delay(500);
-                System.out.println("Goodbye");
                 System.exit(0);
         }
 
     }
 
+    // Handle read file requests.
     public static void reader(String filename) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -122,6 +124,7 @@ public class SetUp {
         }
     }
 
+    // creates variable delay in console output for readability.
     public static void delay(int time){
         try{
             Thread.sleep(time);
@@ -130,6 +133,7 @@ public class SetUp {
         }
     }
 
+    // Variable bound Random Number Generator
     public static int getRandom(int bound){
         Random random = new Random();
         return random.nextInt(bound);

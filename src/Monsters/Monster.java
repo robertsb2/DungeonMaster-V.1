@@ -26,7 +26,7 @@ public class Monster {
         MINOTAUR("Minotaur", 30, 20, 16, 21),
         CYCLOPS("Cyclops", 35, 22, 18, 23),
         DRAGON("Dragon", 40, 24, 20, 999),
-        DEMON("Demon", 50, 26, 25, 999);
+        DEMON("Demon", 100, 26, 25, 999);
 
         private final String eName;
         private final int eHealth;
@@ -45,9 +45,9 @@ public class Monster {
     }
 
 
-
+    // Accepts random input to set new monster type and stats.
     public static void foundMonster(int i){
-        type = Types.values()[i-1];//[SetUp.getRandom(i)];
+        type = Types.values()[i];
         strength = type.eStrength;
         defense = type.eDefense;
         health = type.eHealth;
@@ -58,9 +58,11 @@ public class Monster {
 
     }
 
+    // Logic for battle sequence.
     private static void fight() {
         escape = false;
         System.out.println("A " + Monster.name + " appeared!");
+        SetUp.delay(1000);
         while (!escape){
             System.out.println("");
             printBattleStats();
@@ -76,12 +78,9 @@ public class Monster {
                 escape = true;
             }
         }
-        if(Players.getCurHealth() <= 0){
-            System.out.println("Game Over");
-            System.exit(0);
-        }
     }
 
+    // Handles player decision during battle. Checks if player dies.
     private static void playerTurn() {
         int attack;
         int damage;
@@ -89,6 +88,8 @@ public class Monster {
             SetUp.delay(1000);
             System.out.println("Game Over...");
             SetUp.delay(1000);
+            System.exit(0);
+
 
         }
         switch (ConsoleIO.promptForMenuSelection(new String[]{"1: Fight","2: Open pack", "3: Escape"},false)){
@@ -98,7 +99,7 @@ public class Monster {
                 if(attack >= Monster.defense){
                    damage = (SetUp.getRandom(Players.getStrength()/2)) + 1 + Weapon.getAtkPower();
                    Monster.health -= damage;
-                    System.out.println("You hit and did " + damage + " damage.");
+                    System.out.println("You hit and deal " + damage + " damage.");
                 } else {
                     System.out.println("Your attack missed...");
                 }
@@ -111,7 +112,9 @@ public class Monster {
                 break;
             case 3:
                 if(SetUp.getRandom(20) + 1 + (Players.getStrength()) > SetUp.getRandom(20) + Monster.escapeRoll) {
+                    SetUp.delay(1000);
                     System.out.println("You got away.");
+                    SetUp.delay(1000);
                     escape = true;
             } else {
                 System.out.println("Can't Escape!");
@@ -122,6 +125,7 @@ public class Monster {
         }
     }
 
+    // Handles monsters' turn.
     private static void monsterAttack() {
         System.out.println("The " + Monster.type + " attacks");
         SetUp.delay(500);
@@ -136,7 +140,7 @@ public class Monster {
         SetUp.delay(500);
     }
 
-
+    // Prints updated player and monster health/stats each round during battle.
     private static void printBattleStats(){
         System.out.println(Players.getName() + "                            " + type);
         System.out.println("--------                         --------");

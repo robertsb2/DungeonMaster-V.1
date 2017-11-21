@@ -66,9 +66,11 @@ public class Players {
     public static void heal(int amount){
         if  (maxHealth-curHealth >= amount) {
             System.out.println("You regained " + amount + " health");
+            SetUp.delay(1000);
             curHealth += amount;
          } else {
             System.out.println("You have full health.");
+            SetUp.delay(1000);
             curHealth = maxHealth;
         }
     }
@@ -110,6 +112,7 @@ public class Players {
                 }
             } else {
                 System.out.println("Your pack is empty.");
+                SetUp.delay(1000);
                 return false;
             }
             choice = ConsoleIO.promptForInput("What do you want to use? (Type 'Cancel' to quit)", false);
@@ -135,7 +138,7 @@ public class Players {
             switch (item){
                 case "potion":
                     Players.pack.remove(item);
-                    heal(5);
+                    heal(maxHealth/4);
                     break;
                 default:
                     System.out.println("Use Item Error");
@@ -146,6 +149,57 @@ public class Players {
         }
     }
 
+
+    // Talisman Methods
+    public static void setTalismanPieces(int value){
+        pieces = value;
+    }
+    public static int getTalismanPieces() {
+        return pieces;
+    }
+    public static void findPiece(){
+        int i = SetUp.getRandom(2)+1;
+        switch (i){
+            case 1:
+                System.out.println("You found a Talisman Piece!");
+                if(pieces == 0){
+                    System.out.println("Find three of these Talisman pieces to gain a strength/defense point!");
+                }
+                pieces ++;
+                statUp();
+                break;
+            default:
+                System.out.println("There is nothing of interest here.");
+        }
+    }
+
+
+
+    //Player stats
+    private static void statUp() {
+
+        if(pieces == 3){
+            pieces = 0;
+            System.out.println("You have found 3 Talisman Pieces!");
+            switch(ConsoleIO.promptForMenuSelection(new String[]{"1: Increase Strength", "2: Increase Defense"},false)){
+                case 1:
+                    setStrength(1);
+                    System.out.println("Strength increased by 1");
+                    SetUp.delay(1000);
+                    break;
+                case 2:
+                    setDefense(1);
+                    System.out.println("Defense increased by 1");
+                    SetUp.delay(1000);
+                    break;
+            }
+            System.out.println();
+            printPlayer();
+            System.out.println();
+        } else {
+            System.out.println("Only " + (3 - pieces) + " left!");
+        }
+    }
     public static void printPlayer(){
         System.out.println(name);
         System.out.println("--------");
@@ -157,48 +211,7 @@ public class Players {
         System.out.println("");
         System.out.println("--------");
         System.out.println("Weapon: " + Weapon.getWeaponName());
+        System.out.println("Talisman Pieces: " + getTalismanPieces());
         System.out.println("");
-    }
-
-    public static void setTalismanPieces(int value){
-        pieces = value;
-    }
-
-    public static int getTalismanPieces() {
-        return pieces;
-    }
-
-    public static void findPiece(){
-        int i = SetUp.getRandom(3)+1;
-        switch (i){
-            case 1:
-                System.out.println("You found a Talisman Piece");
-                statUp();
-                break;
-            default:
-                System.out.println("There is nothing of interest here.");
-        }
-    }
-
-    private static void statUp() {
-
-        if(pieces == 3){
-            pieces = 0;
-            System.out.println("You have found 3 Talisman Pieces!");
-            switch(ConsoleIO.promptForMenuSelection(new String[]{"1: Increase Strength", "2: Increase Defense"},false)){
-                case 1:
-                    setStrength(1);
-                    break;
-                case 2:
-                    setDefense(1);
-                    break;
-            }
-            System.out.println();
-            printPlayer();
-            System.out.println();
-        } else {
-            System.out.println("Only " + (3 - pieces) + " pieces left!");
-            pieces ++;
-        }
     }
 }

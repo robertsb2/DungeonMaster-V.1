@@ -1,3 +1,5 @@
+package Main;
+
 import Gameplay.Dungeon;
 import Gameplay.SetUp;
 import Gameplay.Town;
@@ -7,12 +9,14 @@ import lib.ConsoleIO;
 import java.util.Scanner;
 
 
-public class Main {
+public class DungeonMaster {
 
     public static void main(String[] args) {
             start();
         }
 
+
+    // Starts game, shows top menu screen, handles player decisions
     private static void start() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("--------------");
@@ -51,10 +55,9 @@ public class Main {
                     break;
                 case 0:
                     System.out.println("Goodbye");
+                    System.exit(0);
 
-                    cont = false;
-                    break;
-            }
+        }
 
 
         }
@@ -62,6 +65,7 @@ public class Main {
 //
     }
 
+    // Main game entry point.
     private static void game() {
         boolean play = true;
         while (play){
@@ -74,7 +78,7 @@ public class Main {
             Players.printPlayer();
             System.out.println("");
 
-            switch (ConsoleIO.promptForMenuSelection(new String[]{"1: To Town","2: To the dungeon","3: Main Menu"},false)){
+            switch (ConsoleIO.promptForMenuSelection(new String[]{"1: To Town","2: To the Dungeon","3: Main Menu"},false)){
                 case 1:
                     Town.start();
                     break;
