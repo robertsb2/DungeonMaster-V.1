@@ -89,10 +89,14 @@ public class Dungeon {
                 break;
             case SHRINE:
                 if(ConsoleIO.promptForBool("Pray at the alter? (Yes/No)","Yes","No")) {
-                    if (Players.getMaxHealth() != Players.getCurHealth()) {
-                        Players.heal(((Players.getMaxHealth() - Players.getCurHealth()) / 2) + 1);
+                    int i = SetUp.getRandom(3)+1;
+                    if (i == 1) {
+                        SetUp.delay(1000);
+                        System.out.println("You max health has increased by 1");
+                        Players.setMaxHealth(1);
                     } else {
-                        System.out.println("You have full health");
+                        SetUp.delay(2000);
+                        System.out.println("Nothing happened...");
                         SetUp.delay(1000);
                     }
                 }
@@ -101,13 +105,13 @@ public class Dungeon {
                 if(SetUp.getRandom(2)+1 == 2){
                     System.out.println("You found some gold!");
                     SetUp.delay(1000);
-                    Players.addGold(SetUp.getRandom(4)+1);
+                    Players.addGold(SetUp.getRandom(2)+1);
                 } else {
                     Monster.foundMonster(floor);
                 }
                 break;
             case LIBRARY:
-                Players.statUp();
+                Players.findPiece();
                 break;
             case TREASURY:
                 getReward();
@@ -161,13 +165,6 @@ public class Dungeon {
     }
 
     public static void getReward(){
-        int i = SetUp.getRandom(4)+1;
-        if (i == 1 && (floor % 2) == 0){
-            System.out.println("You got a weapon");
-            System.out.println(Weapon.getWeaponName());
-            Weapon.setWeapon(SetUp.getRandom(floor/2)+1);
-        } else {
-            Players.addGold(SetUp.getRandom(5)+1);
-        }
+            Players.addGold(SetUp.getRandom(3 + floor)+1);
     }
 }

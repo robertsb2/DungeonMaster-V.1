@@ -1,21 +1,23 @@
 package Weapons;
 
-
 public class Weapon {
     public enum Weapons{
-        EMPTY("None",0),
-        SHORT_SWORD("Short Sword",1),
-        LONG_SWORD("Long Sword",2),
-        BROADSWORD("Broadsword",3),
-        MACE("Mace",4),
-        AXE("Axe",5);
+        //NAME("Name",Attack Power, Cost)
+        EMPTY("None",0,0),
+        SHORT_SWORD("Short Sword",1,30),
+        LONG_SWORD("Long Sword",2,60),
+        BROADSWORD("Broadsword",3,90),
+        MACE("Mace",4,120),
+        AXE("Axe",5,150);
 
         private final String weaponName;
         private final int power;
+        private final int cost;
 
-        Weapons(String name, int power){
+        Weapons(String name, int power, int cost){
             this.weaponName = name;
             this.power = power;
+            this.cost = cost;
         }
     }
 
@@ -41,5 +43,11 @@ public class Weapon {
 
     public static int getWeaponId(){
         return weaponId;
+    }
+
+    public static int getCost(int idNumber){
+        Weapons weapon = Weapons.values()[idNumber];
+
+        return weapon.cost;
     }
 }

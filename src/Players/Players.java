@@ -1,10 +1,10 @@
 package Players;
 
+import Gameplay.SetUp;
 import Weapons.Weapon;
 import lib.ConsoleIO;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Players {
     private static String name = "";
@@ -13,6 +13,7 @@ public class Players {
     private static int maxHealth = 0;
     private static int curHealth = 0;
     private static int gold = 0;
+    private static int pieces = 0;
 
     private static ArrayList pack = new ArrayList();
 
@@ -67,6 +68,7 @@ public class Players {
             System.out.println("You regained " + amount + " health");
             curHealth += amount;
          } else {
+            System.out.println("You have full health.");
             curHealth = maxHealth;
         }
     }
@@ -89,6 +91,9 @@ public class Players {
 
 
     // Pack Methods:
+    public static int getPackSize() {
+        return pack.size();
+    }
     public static void fillPack(int amount){
         for (int i = 0; i < amount ; i++) {
             pack.add("potion");
@@ -107,7 +112,7 @@ public class Players {
                 System.out.println("Your pack is empty.");
                 return false;
             }
-            choice = ConsoleIO.promptForInput("What do you want to use? ", false);
+            choice = ConsoleIO.promptForInput("What do you want to use? (Type 'Cancel' to quit)", false);
         } catch (Exception e) {
             System.out.println("pack print error");
         }
@@ -115,9 +120,10 @@ public class Players {
                if ( pack.contains(choice)){
                    useItem(choice);
                    return true;
+               } else if(choice.equalsIgnoreCase("cancel")) {
+                   return false;
                } else {
                    System.out.println("you don't have any of those.");
-                   return false;
                }
            }catch (Exception e){
                System.out.println("pack item choice error");
@@ -154,23 +160,45 @@ public class Players {
         System.out.println("");
     }
 
-    public static void statUp(){
-        Random random = new Random();
-        int i = random.nextInt(3)+1;
+    public static void setTalismanPieces(int value){
+        pieces = value;
+    }
+
+    public static int getTalismanPieces() {
+        return pieces;
+    }
+
+    public static void findPiece(){
+        int i = SetUp.getRandom(3)+1;
         switch (i){
             case 1:
-                System.out.println("You found a Hero's Journal. Your strength has increased by 1");
-                setStrength(1);
-                printPlayer();
-                break;
-            case 2:
-                System.out.println("You found a Strategist's Guidebook. Your defense has increased by 1");
-                setDefense(1);
-                printPlayer();
+                System.out.println("You found a Talisman Piece");
+                statUp();
                 break;
             default:
                 System.out.println("There is nothing of interest here.");
         }
     }
 
+    private static void statUp() {
+
+        if(pieces == 3){
+            pieces = 0;
+            System.out.println("You have found 3 Talisman Pieces!");
+            switch(ConsoleIO.promptForMenuSelection(new String[]{"1: Increase Strength", "2: Increase Defense"},false)){
+                case 1:
+                    setStrength(1);
+                    break;
+                case 2:
+                    setDefense(1);
+                    break;
+            }
+            System.out.println();
+            printPlayer();
+            System.out.println();
+        } else {
+            System.out.println("Only " + (3 - pieces) + " pieces left!");
+            pieces ++;
+        }
+    }
 }

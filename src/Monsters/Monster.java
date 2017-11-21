@@ -5,7 +5,6 @@ import Gameplay.SetUp;
 import Players.Players;
 import Weapons.Weapon;
 import lib.ConsoleIO;
-import java.util.Scanner;
 
 public class Monster {
     private static int strength;
@@ -18,16 +17,16 @@ public class Monster {
 
     public enum Types {
         //TYPE("name", Health, Strength, Defense, Escape Requirement)
-        GOBLIN("Goblin", 5, 4, 3, 2),
-        ZOMBIE("Zombie", 8, 5, 5, 3),
-        BANSHEE("Banshee", 10, 5, 5, 4),
-        VAMPIRE("Vampire", 13, 5, 5, 5),
-        GHOUL("Ghoul", 15, 5, 5, 6),
-        WEREWOLF("Werewolf", 18, 5, 5, 7),
-        MINOTAUR("Minotaur", 20, 5, 5, 8),
-        CYCLOPS("Cyclops", 23, 5, 5, 9),
-        DRAGON("Dragon", 25, 5, 5, 11),
-        DEMON("Demon", 30, 5, 5, 11);
+        GOBLIN("Goblin", 15, 8, 8, 9),
+        ZOMBIE("Zombie", 15, 10, 11, 11),
+        BANSHEE("Banshee", 20, 12, 12, 13),
+        VAMPIRE("Vampire", 23, 14, 13, 15),
+        GHOUL("Ghoul", 25, 16, 14, 17),
+        WEREWOLF("Werewolf", 28, 18, 15, 19),
+        MINOTAUR("Minotaur", 30, 20, 16, 21),
+        CYCLOPS("Cyclops", 35, 22, 18, 23),
+        DRAGON("Dragon", 40, 24, 20, 999),
+        DEMON("Demon", 50, 26, 25, 999);
 
         private final String eName;
         private final int eHealth;
@@ -48,9 +47,9 @@ public class Monster {
 
 
     public static void foundMonster(int i){
-        type = Types.values()[SetUp.getRandom(i)];
-        strength = type.eStrength + i ;
-        defense = type.eDefense + i ;
+        type = Types.values()[i-1];//[SetUp.getRandom(i)];
+        strength = type.eStrength;
+        defense = type.eDefense;
         health = type.eHealth;
         name = type.eName;
         escapeRoll = type.eEscape;
@@ -86,12 +85,18 @@ public class Monster {
     private static void playerTurn() {
         int attack;
         int damage;
+        if (Players.getCurHealth() <= 0){
+            SetUp.delay(1000);
+            System.out.println("Game Over...");
+            SetUp.delay(1000);
+
+        }
         switch (ConsoleIO.promptForMenuSelection(new String[]{"1: Fight","2: Open pack", "3: Escape"},false)){
             case 1:
                 SetUp.delay(500);
-                attack = SetUp.getRandom(Players.getStrength())+1;
+                attack = SetUp.getRandom(20) + (Players.getStrength()/2) + 1;
                 if(attack >= Monster.defense){
-                   damage = (Players.getStrength()/2) + Weapon.getAtkPower();
+                   damage = (SetUp.getRandom(Players.getStrength()/2)) + 1 + Weapon.getAtkPower();
                    Monster.health -= damage;
                     System.out.println("You hit and did " + damage + " damage.");
                 } else {
@@ -105,8 +110,8 @@ public class Monster {
                 }
                 break;
             case 3:
-                if(SetUp.getRandom(10)> Monster.escapeRoll) {
-                    System.out.println("Coward....");
+                if(SetUp.getRandom(20) + 1 + (Players.getStrength()) > SetUp.getRandom(20) + Monster.escapeRoll) {
+                    System.out.println("You got away.");
                     escape = true;
             } else {
                 System.out.println("Can't Escape!");
@@ -120,7 +125,7 @@ public class Monster {
     private static void monsterAttack() {
         System.out.println("The " + Monster.type + " attacks");
         SetUp.delay(500);
-        int attack = SetUp.getRandom(Monster.strength)+1;
+        int attack = SetUp.getRandom(20) + (Monster.strength/2) +1;
         if(attack >= Players.getDefense()){
             int damage = SetUp.getRandom(Monster.strength/2)+1;
             System.out.println("It deals " + damage + " damage.");
